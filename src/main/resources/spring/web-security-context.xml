@@ -1,0 +1,47 @@
+<beans:beans
+        xmlns="http://www.springframework.org/schema/security"
+        xmlns:beans="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <context:component-scan base-package="com.sample.security"/>
+
+    <http auto-config="true">
+        <intercept-url pattern="/" access="hasRole('USER')"/>
+        <form-login login-page="/login"
+                    default-target-url="/"
+                    authentication-failure-url="/login?error"
+                    username-parameter="username"
+                    password-parameter="password"/>
+        <logout invalidate-session="true"
+                logout-url="/logout"
+                logout-success-url="/login?logout" />
+
+        <remember-me remember-me-parameter="remember-me" token-repository-ref="persistentTokenRepository"/>
+
+        <csrf />
+
+    </http>
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="userDetailsServiceImpl">
+            <password-encoder ref="encoder"/>
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="userDetailsServiceImpl" class="com.sample.security.UserDetailsServiceImpl"/>
+
+    <beans:bean id="persistentTokenRepository" class="com.sample.security.PersistentTokenRepositoryImpl"/>
+
+    <beans:bean id="encoder"
+                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+        <beans:constructor-arg name="strength" value="9"/>
+    </beans:bean>
+
+</beans:beans>

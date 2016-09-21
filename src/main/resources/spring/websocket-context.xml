@@ -1,0 +1,49 @@
+<beans:beans
+        xmlns="http://www.springframework.org/schema/security"
+        xmlns:beans="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:websocket="http://www.springframework.org/schema/websocket"
+        xmlns:security="http://www.springframework.org/schema/security"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/websocket
+          http://www.springframework.org/schema/websocket/spring-websocket.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <context:component-scan base-package="com.sample.security"/>
+
+    <!--<security:websocket-message-broker same-origin-disabled="true">-->
+        <!--<intercept-message type="CONNECT" access="permitAll"/>-->
+        <!--<intercept-message type="DISCONNECT" access="permitAll"/>-->
+        <!--<intercept-message type="UNSUBSCRIBE" access="permitAll"/>-->
+
+        <!--<intercept-message pattern="/app/**" access="hasRole('USER')" />-->
+        <!--<intercept-message pattern="/topic/*" access="hasRole('ADMIN')" />-->
+
+        <!--<intercept-message type="MESSAGE" access="denyAll" />-->
+        <!--<intercept-message type="SUBSCRIBE" access="denyAll" />-->
+        <!--<intercept-message pattern="/**" access="denyAll" />-->
+
+    <!--</security:websocket-message-broker>-->
+
+    <websocket:message-broker application-destination-prefix="/app">
+        <websocket:stomp-endpoint path="/ws">
+            <websocket:sockjs/>
+        </websocket:stomp-endpoint>
+        <websocket:simple-broker prefix="/topic"/>
+    </websocket:message-broker>
+
+    <!--<websocket:message-broker application-destination-prefix="/app">-->
+        <!--<websocket:stomp-endpoint path="/hello">-->
+            <!--<websocket:sockjs/>-->
+        <!--</websocket:stomp-endpoint>-->
+        <!--<websocket:stomp-broker-relay prefix="/topic"-->
+                                      <!--relay-host="localhost" relay-port="61613"-->
+                                      <!--heartbeat-send-interval="20000" heartbeat-receive-interval="20000"/>-->
+    <!--</websocket:message-broker>-->
+
+</beans:beans>

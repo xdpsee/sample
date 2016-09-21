@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sample.data.mapper.RememberMapper">
+
+    <resultMap id="rememberMap" type="Remember">
+        <result property="series" javaType="String" column="series" jdbcType="VARCHAR"/>
+        <result property="username" javaType="String" column="username" jdbcType="VARCHAR"/>
+        <result property="token" javaType="String" column="token" jdbcType="VARCHAR"/>
+        <result property="timestamp" javaType="java.sql.Timestamp" column="timestamp" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="Remember">
+        <![CDATA[
+
+
+        INSERT INTO remember_me_logins (
+          series,
+          username,
+          token,
+          timestamp
+        ) VALUES (
+          #{series},
+          #{username},
+          #{token},
+          #{timestamp}
+        )
+
+
+        ]]>
+    </insert>
+
+    <select id="selectBySeries" resultMap="rememberMap">
+        <![CDATA[
+
+
+        SELECT * FROM remember_me_logins WHERE series=#{series}
+
+
+        ]]>
+    </select>
+
+    <update id="update">
+        <![CDATA[
+
+
+        UPDATE remember_me_logins SET token = #{token}, timestamp = #{timestamp}
+        WHERE series = #{series}
+
+
+        ]]>
+    </update>
+
+    <delete id="removeByUsername">
+        <![CDATA[
+
+        DELETE FROM remember_me_logins WHERE username = #{username}
+
+        ]]>
+    </delete>
+
+</mapper>
+
