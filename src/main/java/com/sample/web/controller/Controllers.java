@@ -21,7 +21,7 @@ public class Controllers {
 
     @MessageMapping("/hello")
     @SendTo("/topic/greetings")
-    public String greeting() {
-        return "Hello!";
+    public Greeting greeting() {
+        return new Greeting("Hello!");
     }
 }

@@ -16,19 +16,22 @@
 
     <context:component-scan base-package="com.sample.security"/>
 
-    <!--<security:websocket-message-broker same-origin-disabled="true">-->
-        <!--<intercept-message type="CONNECT" access="permitAll"/>-->
-        <!--<intercept-message type="DISCONNECT" access="permitAll"/>-->
-        <!--<intercept-message type="UNSUBSCRIBE" access="permitAll"/>-->
+    <security:websocket-message-broker id="channelSecurityInterceptor"
+                                       same-origin-disabled="true">
+        <intercept-message type="CONNECT" access="permitAll"/>
+        <intercept-message type="DISCONNECT" access="permitAll"/>
+        <intercept-message type="UNSUBSCRIBE" access="permitAll"/>
 
-        <!--<intercept-message pattern="/app/**" access="hasRole('USER')" />-->
-        <!--<intercept-message pattern="/topic/*" access="hasRole('ADMIN')" />-->
+        <intercept-message pattern="/app/**" access="hasRole('USER')" />
+        <intercept-message pattern="/topic/*" access="hasRole('ADMIN')" />
 
-        <!--<intercept-message type="MESSAGE" access="denyAll" />-->
-        <!--<intercept-message type="SUBSCRIBE" access="denyAll" />-->
-        <!--<intercept-message pattern="/**" access="denyAll" />-->
+        <intercept-message type="MESSAGE" access="denyAll" />
+        <intercept-message type="SUBSCRIBE" access="denyAll" />
+        <intercept-message pattern="/**" access="denyAll" />
 
-    <!--</security:websocket-message-broker>-->
+    </security:websocket-message-broker>
+
+
 
     <websocket:message-broker application-destination-prefix="/app">
         <websocket:stomp-endpoint path="/ws">
